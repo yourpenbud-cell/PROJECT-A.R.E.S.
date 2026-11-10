@@ -14,7 +14,7 @@ radiation shielding, and crew morale.
 No build step, no dependencies. Open the HTML file in any modern browser:
 
 ```
-ares_2_1 (2).html
+A.R.E.S_2.0
 ```
 
 Or serve it locally:
