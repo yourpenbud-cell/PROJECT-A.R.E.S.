@@ -161,8 +161,130 @@ h1 span{color:#ffb000}
 .slot.filled{font-size:.75rem;letter-spacing:1px}.oj{margin:8px 0;padding:6px 8px;border:1px solid #12461f}.oj.done{border-color:#3dff7a;background:#04180a}.oj .pg{color:#ffb000;font-size:.65rem;float:right}.oj .rq{font-size:.62rem;margin-top:3px;clear:both}.oj .rq span{margin-right:8px}.oj button{margin-top:6px}.fbtn:disabled{opacity:.5;cursor:wait}
 .spec{border:1px solid #ffb000;padding:12px;margin-top:12px;font-size:.7rem;line-height:1.6;color:#7dffa6;background:#010a03}.spec .sh{color:#ffb000;letter-spacing:2px}.spec .sn{color:#3dff7a;font-size:.95rem;font-weight:bold;margin:4px 0}.spec pre{color:#3dff7a;line-height:1.15;font-size:.75rem;overflow-x:auto;margin:8px 0}
 </style>
+<style>
+#startScreen{position:fixed;inset:0;z-index:150;background:none;display:flex;padding:18px;overflow-y:auto}
+#startScreen.hide{display:none}
+#startScreen .ss-box{width:100%;max-width:640px;text-align:center;border:1px solid #1f7a3a;background:#020d05;box-shadow:0 0 30px #3dff7a22,inset 0 0 40px #3dff7a0a;padding:38px 34px;margin:auto}
+#startScreen .ss-tag{color:#2fae58;font-size:.64rem;letter-spacing:2px;margin-bottom:14px}
+#startScreen h1.ss-title{color:#3dff7a;font-size:1.9rem;letter-spacing:5px;white-space:nowrap;margin-bottom:6px}
+#startScreen h1.ss-title::before,#startScreen h1.ss-title::after{content:none!important;display:none!important}
+#startScreen h1.ss-title span{color:#ffb000}
+#startScreen .ss-sub{color:#ffb000;font-size:.74rem;letter-spacing:2px;margin-bottom:22px}
+#startScreen .ss-blurb{color:#2fae58;font-size:.8rem;line-height:1.6;margin:0 auto 28px;max-width:470px}
+#startScreen .ss-btns{display:flex;flex-direction:column;gap:12px;max-width:320px;margin:0 auto}
+#startScreen button.ss-btn{font-family:inherit;font-size:.95rem;letter-spacing:3px;padding:13px 18px;cursor:pointer;background:#020d05;color:#3dff7a;border:1px solid #3dff7a;text-shadow:inherit;transition:.15s}
+#startScreen button.ss-btn:hover{background:#3dff7a;color:#010802;text-shadow:none;box-shadow:0 0 14px #3dff7a66}
+#startScreen button.ss-btn:focus-visible{outline:none;box-shadow:0 0 14px #3dff7a99}
+#startScreen button.ss-btn.alt{color:#ffb000;border-color:#ffb000}
+#startScreen button.ss-btn.alt:hover{background:#ffb000;color:#010802;box-shadow:0 0 14px #ffb00066}
+#startScreen button.ss-btn.alt:focus-visible{box-shadow:0 0 14px #ffb000aa}
+#startScreen .ss-foot{color:#12461f;font-size:.62rem;letter-spacing:2px;margin-top:24px}
+#startScreen .ss-help{text-align:left}
+#startScreen .ss-help h2{color:#ffb000;letter-spacing:3px;font-size:1rem;margin-bottom:14px;text-align:center}
+#startScreen .ss-help h3{color:#3dff7a;font-size:.8rem;letter-spacing:2px;margin:16px 0 5px}
+#startScreen .ss-help p,#startScreen .ss-help li{color:#2fae58;font-size:.78rem;line-height:1.6}
+#startScreen .ss-help ul{margin:4px 0 0 18px}
+#startScreen .ss-help b{color:#7dffa6}
+#startScreen .ss-help .ss-btns{margin-top:22px}
+#startScreen .ss-cur{display:inline-block;width:.6em;height:1em;background:#3dff7a;vertical-align:-2px;animation:ssblink 1s steps(2) infinite}
+@keyframes ssblink{50%{opacity:0}}
+@media(max-width:700px){#startScreen .ss-box{padding:26px 18px}#startScreen h1.ss-title{font-size:1.15rem;letter-spacing:2px}}
+</style>
+<style>
+.rcol{display:flex;flex-direction:column;gap:16px;min-width:0}
+.wrap.lmin{grid-template-columns:170px 1fr 330px}
+.wrap.rmin{grid-template-columns:290px 1fr 170px}
+.wrap.lmin.rmin{grid-template-columns:170px 1fr 170px}
+.wrap.lmin>.panel:first-child>:not(h2:first-child),.wrap.rmin>.rcol>.panel>:not(h2:first-child){display:none}
+.wrap.lmin>.panel:first-child h2,.wrap.rmin>.rcol>.panel h2{margin-bottom:0}
+@media(max-width:1180px){.wrap.lmin,.wrap.rmin,.wrap.lmin.rmin{grid-template-columns:1fr}}
+.cdx-hint{font-size:.64rem;color:#2fae58;margin-bottom:8px}
+.cdx-filters{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px}
+.cdx-filters .fbtn{padding:3px 7px;font-size:.58rem}
+#cdxList{max-height:230px;overflow-y:auto}
+#cdxList button{display:flex;justify-content:space-between;gap:8px;width:100%;text-align:left;font-family:inherit;font-size:.68rem;padding:5px 8px;margin-bottom:4px;cursor:pointer;background:transparent;color:#2fae58;border:1px solid #12461f;border-left:3px solid #1f7a3a;text-shadow:inherit}
+#cdxList button:hover,#cdxList button:focus-visible{border-color:#3dff7a;color:#7dffa6;outline:none}
+#cdxList button.sel{background:#3dff7a;color:#010802;border-color:#3dff7a;text-shadow:none}
+#cdxList button small{opacity:.7;white-space:nowrap}
+#cdxList::-webkit-scrollbar{width:6px}#cdxList::-webkit-scrollbar-thumb{background:#1f7a3a}
+</style>
+<style>
+body.ss-on #rain{z-index:149;opacity:1}
+#rain{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;opacity:.6}
+.tm-label{color:#ffb000;font-size:.66rem;letter-spacing:1px;margin-bottom:6px}
+.tm-target{font-size:1rem;letter-spacing:1px;background:#010802;border:1px dashed #1f7a3a;padding:10px 12px;margin-bottom:10px;word-break:break-all;user-select:none;-webkit-user-select:none;min-height:2.6em}
+.tm-target .rest{color:#1f7a3a;text-shadow:none}
+.tm-target .ok{color:#3dff7a;text-shadow:0 0 6px #3dff7a99}
+.tm-target .bad{color:#ff6b6b;background:#3a0a0a;text-shadow:none}
+.tm-target .cur{border-left:2px solid #3dff7a;margin-left:-1px;animation:tmblink 1s steps(2) infinite}
+@keyframes tmblink{50%{border-color:transparent}}
+.tm-row{display:flex;align-items:center;gap:8px;background:#010802;border:1px solid #3dff7a;padding:6px 8px}
+.tm-ps{color:#3dff7a;font-size:.8rem;white-space:nowrap}
+#tm-input{flex:1;min-width:0;background:transparent;border:none;outline:none;color:#7dffa6;font-family:inherit;font-size:.95rem;caret-color:#3dff7a;text-shadow:0 0 5px #3dff7a66}
+.tm-btn{background:transparent;border:1px solid #1f7a3a;color:#2fae58;font-family:inherit;font-size:.7rem;padding:6px 12px;cursor:pointer;letter-spacing:1px}
+.tm-btn:hover{border-color:#3dff7a;color:#3dff7a;background:#04180a}
+.tm-fb{min-height:1.4em;margin-top:8px;font-size:.72rem;color:#ff6b6b}
+#tm-chips{display:flex;flex-wrap:wrap;gap:6px}
+.tm-chip{background:#010802;border:1px solid #2fae58;color:#7dffa6;font-family:inherit;font-size:.78rem;padding:5px 10px;cursor:pointer}
+.tm-chip:hover,.tm-chip:focus-visible{background:#3dff7a;color:#010802;outline:none;text-shadow:none}
+.tm-tools{display:flex;gap:8px;align-items:center;margin-top:10px}
+#tm-meta{margin-left:auto;color:#ffb000;font-size:.68rem;letter-spacing:1px}
+.sbbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 12px}
+.sbbar .sbl{color:#ffb000;font-size:.66rem;letter-spacing:2px}
+.panel.pmin>:not(h2:first-child){display:none}
+.panel.pmin>h2:first-child{margin-bottom:0}
+.panel>h2:first-child{cursor:pointer;user-select:none}
+.panel>h2:first-child::after{content:' [-]';color:#1f7a3a;font-size:.7em}
+.panel.pmin>h2:first-child::after{content:' [+]'}
+.actions{margin:0 0 12px;flex-wrap:wrap}
+#catToggleRow{display:flex;align-items:center;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+#catNote{font-size:.66rem;color:#2fae58}
+<style>
+.mf-box,.adv-box{border:1px solid #1f7a3a;background:#010a03;padding:10px 12px;margin-bottom:12px}
+.mf-box h3,.adv-box h3{font-size:.72rem;letter-spacing:2px;color:#ffb000;margin-bottom:8px}
+.mf-box h3::before,.adv-box h3::before{content:'> '}
+.mf-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;border-bottom:1px dashed #12461f;padding:5px 0;font-size:.68rem}
+.mf-row:last-child{border-bottom:none}
+.mf-nm{flex:1;min-width:180px;color:#7dffa6}
+.mf-empty{font-size:.68rem;color:#2fae58}
+.mf-btn{background:transparent;border:1px solid #ff4d4d;color:#ff6b6b;font-family:inherit;font-size:.6rem;padding:3px 8px;cursor:pointer;letter-spacing:1px;text-shadow:none}
+.mf-btn:hover{background:#ff4d4d;color:#010802}
+.adv-sum{font-size:.66rem;color:#2fae58;margin-bottom:8px}
+.adv-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:4px 0;font-size:.68rem;border-bottom:1px dashed #12461f}
+.adv-row:last-of-type{border-bottom:none}
+.adv-tag{min-width:52px;font-size:.6rem;letter-spacing:1px;text-align:center;padding:2px 4px;border:1px solid #3dff7a;color:#3dff7a}
+.adv-tag.need{border-color:#ffb000;color:#ffb000}
+.adv-tag.tip{border-color:#33ffcc;color:#33ffcc}
+.adv-txt{flex:1;min-width:170px;color:#7dffa6}
+.adv-add{background:transparent;border:1px solid #3dff7a;color:#3dff7a;font-family:inherit;font-size:.6rem;padding:3px 8px;cursor:pointer;letter-spacing:1px;text-shadow:none}
+.adv-add:hover:not(:disabled){background:#3dff7a;color:#010802}
+.adv-add:disabled{border-color:#1f7a3a;color:#1f7a3a;cursor:not-allowed}
+.adv-acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.rec{color:#33ffcc;font-size:.62rem;letter-spacing:1px;margin-top:3px}
+
+.adv-tag.tick{border-color:#3dff7a;background:#3dff7a;color:#010802;font-size:.85rem;font-weight:bold;text-shadow:none}
+.adv-row.done .adv-txt{color:#7dffa6}
+.adv-row:not(.done) .adv-txt b{color:#ffb000}
+.adv-hint{color:#33ffcc;font-size:.62rem;margin-top:2px}
+.adv-row.pop{animation:advpop .8s}
+@keyframes advpop{0%{background:#3dff7a55;transform:scale(1.03)}100%{background:transparent;transform:none}}
+#mgOverlay{position:fixed;inset:0;background:rgba(1,8,2,.94);display:none;align-items:center;justify-content:center;z-index:120;padding:10px}
+#mgOverlay.active{display:flex}
+.mgbox{width:100%;max-width:520px;border:2px solid #3dff7a;background:#020d05;padding:14px;box-shadow:0 0 30px #3dff7a33}
+.mgtitle{color:#ffb000;letter-spacing:3px;font-size:.9rem;text-align:center;margin-bottom:8px}
+.mghud{display:flex;justify-content:space-between;font-size:.85rem;color:#3dff7a;margin-bottom:6px;letter-spacing:2px}
+.mgwrap{position:relative}
+#mgCanvas{width:100%;height:auto;display:block;border:1px solid #1f7a3a;background:#010802;touch-action:none;cursor:crosshair}
+#mgPanel{position:absolute;inset:0;background:rgba(1,8,2,.9);display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:14px;gap:8px;font-size:.75rem;line-height:1.5;color:#7dffa6;overflow-y:auto}
+.mgh{color:#ffb000;font-size:1rem;letter-spacing:3px}
+.mgbtn{background:transparent;border:1px solid #3dff7a;color:#3dff7a;font-family:inherit;font-size:.85rem;letter-spacing:2px;padding:10px 18px;cursor:pointer}
+.mgbtn:hover,.mgbtn:focus-visible{background:#3dff7a;color:#010802;outline:none;text-shadow:none}
+.mgfacts{border:1px dashed #1f7a3a;padding:6px 8px;font-size:.68rem;text-align:left}
+.mgfoot{font-size:.65rem;color:#2fae58;text-align:center;margin-top:6px}
+</style>
 </head>
-<body>
+<body class="ss-on">
+<canvas id="rain" aria-hidden="true"></canvas>
 <h1>PROJECT A.R.E.S. <span>2.0</span></h1>
 <div class="sub">ADVANCED RESOURCE &amp; ENVIRONMENT SIMULATOR · STARSHIP MANIFEST PROGRAM · SOL <span id="solnum">1</span> · <span id="phaseName">PRE-FLIGHT</span> · <span id="modeName">MODE: CADET</span></div>
 <div class="tabs">
@@ -171,6 +293,21 @@ h1 span{color:#ffb000}
   <div class="tab" id="tab3">03 / SURFACE OPERATIONS</div>
 </div>
 
+<div class="actions">
+  <button class="ghost" id="backBtn" style="display:none">< MANIFEST</button>
+  <button class="big" id="mainBtn">SEAL MANIFEST >></button>
+  <button class="ghost" id="pauseBtn" style="display:none">PAUSE</button>
+  <button class="ghost" id="voiceBtn" onclick="toggleVoice()">VOICE: OFF</button>
+  <button class="ghost" onclick="setKeys()" title="Optional Gemini / NASA keys">KEYS</button>
+  <button class="ghost" id="resetBtn" onclick="location.reload()">RESET</button>
+</div>
+<div class="sbbar" id="sbbar">
+  <span class="sbl">SIDEBARS:</span>
+  <button type="button" class="fbtn on" data-p="left" title="Show or hide the telemetry and objectives panel">TELEMETRY &amp; OBJECTIVES</button>
+  <button type="button" class="fbtn on" data-p="cdx" title="Show or hide the item database">ITEM DATABASE</button>
+  <button type="button" class="fbtn on" data-p="log" title="Show or hide the mission log">MISSION LOG</button>
+  <button type="button" class="fbtn" id="sbAll" title="Hide or show all sidebars">HIDE ALL</button>
+</div>
 <div class="wrap">
   <div class="panel">
     <h2>TELEMETRY</h2>
@@ -200,14 +337,17 @@ h1 span{color:#ffb000}
         <button class="modebtn" id="m-hard" onclick="setMode('hard')">FLIGHT DIRECTOR (HARD · free-text, AI judged)</button>
       </div>
       <div style="font-size:.7rem;color:#7b8ba3;margin-bottom:10px">Select hardware to load. Mass and volume are deducted immediately. Reserves fill tanks directly.</div>
+      <div class="adv-box" id="advisor" style="display:none"></div>
+      <div class="mf-box" id="manifestBox"><h3>LOADED CRATES (<span id="manifestCount">0</span>) · REMOVE ANY BEFORE SEALING</h3><div id="manifestList"></div></div>
       <div class="filters" id="filters"></div>
       <div id="capstrip" style="font-size:.66rem;color:#7b8ba3;margin-bottom:10px;letter-spacing:1px"></div>
-      <div id="catalog"></div>
+      <div id="catToggleRow"><button type="button" class="fbtn" id="catToggle">SHOW ALL CARDS</button><span id="catNote">Cards are hidden. Press the button or pick a category to browse hardware.</span></div>
+      <div id="catalog" style="display:none"></div>
     </div>
     <div id="p2" style="display:none">
       <h2>INTERIOR CONFIGURATION</h2>
-      <div class="hint" id="hint">Click a crate from UNPLACED CARGO, then click a slot.</div>
-      <div style="text-align:center;margin-bottom:8px"><button class="ghost" onclick="autoPlace()" style="padding:8px 14px;font-size:.68rem">AUTO-PLACE ALL CRATES</button></div>
+      <div class="hint" id="hint">Click a crate from UNPLACED CARGO, then click a slot. Click a stocked crate (✕) to take it back out.</div>
+      <div style="text-align:center;margin-bottom:8px"><button class="ghost" onclick="autoPlace()" style="padding:8px 14px;font-size:.68rem">AUTO-PLACE ALL CRATES</button> <button class="ghost" onclick="returnAll()" style="padding:8px 14px;font-size:.68rem;margin-left:6px">RETURN ALL TO QUEUE</button></div>
       <div id="slotbar" style="margin-bottom:10px"></div>
       <div style="display:grid;grid-template-columns:1fr 260px;gap:16px">
         <div class="ship">
@@ -232,6 +372,15 @@ h1 span{color:#ffb000}
           <button id="hardsend" onclick="submitHard()">TRANSMIT SOLUTION TO FLIGHT DIRECTOR</button>
           <div id="hardnote" style="color:#ff6b6b;font-size:.7rem;margin-top:8px"></div>
         </div>
+        <div id="prob-term" style="display:none">
+          <div class="tm-label">TYPE THIS COMMAND EXACTLY (pasting is disabled):</div>
+          <div id="tm-target" class="tm-target"></div>
+          <div class="tm-row"><span class="tm-ps">operator@ares:~$</span><input id="tm-input" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Terminal command input"><button type="button" id="tm-run" class="tm-btn">RUN</button></div>
+          <div id="tm-fb" class="tm-fb"></div>
+          <div class="tm-label" style="margin-top:12px">COMMAND BUILDER: click tokens to add them to the prompt (typing still works)</div>
+          <div id="tm-chips"></div>
+          <div class="tm-tools"><button type="button" id="tm-undo" class="tm-btn">DEL WORD</button><button type="button" id="tm-clear" class="tm-btn">CLEAR</button><span id="tm-meta"></span></div>
+        </div>
       </div>
       <div id="opshead" style="font-size:.75rem;color:#aebdd2;margin-bottom:10px">Touchdown confirmed. Arcadia Planitia.</div>
       <div id="opsreport" style="font-size:.72rem;line-height:1.9;color:#aebdd2;background:#0a1018;padding:12px;border-radius:6px;min-height:200px"></div>
@@ -239,21 +388,70 @@ h1 span{color:#ffb000}
     </div>
   </div>
 
-  <div class="panel">
-    <h2>MISSION LOG</h2>
-    <div id="log"></div>
+  <div class="rcol">
+    <div class="panel" id="cdxPanel">
+      <h2>ITEM DATABASE</h2>
+      <div class="cdx-hint">Click an item to read its description in the mission log.</div>
+      <div class="cdx-filters" id="cdxFilters"></div>
+      <div id="cdxList"></div>
+    </div>
+    <div class="panel" id="logPanel">
+      <h2>MISSION LOG</h2>
+      <div id="log"></div>
+    </div>
   </div>
 </div>
 
-<div class="actions">
-  <button class="ghost" id="backBtn" style="display:none">< MANIFEST</button>
-  <button class="big" id="mainBtn">SEAL MANIFEST >></button>
-  <button class="ghost" id="pauseBtn" style="display:none">PAUSE</button>
-  <button class="ghost" id="voiceBtn" onclick="toggleVoice()">VOICE: OFF</button>
-  <button class="ghost" onclick="setKeys()" title="Optional Gemini / NASA keys">KEYS</button>
-  <button class="ghost" id="resetBtn" onclick="location.reload()">RESET</button>
-</div>
 
+<div id="startScreen">
+  <div class="ss-box" id="ssMain">
+    <div class="ss-tag">NASA SPACE APPS CHALLENGE · JUNIOR ASTRONAUT MISSION TRAINER</div>
+    <h1 class="ss-title">PROJECT A.R.E.S. <span>2.0</span></h1>
+    <div class="ss-sub">ADVANCED RESOURCE &amp; ENVIRONMENT SIMULATOR</div>
+    <div class="ss-blurb">Pack a Starship, build a habitat on Mars and keep a crew of four alive for 30 sols. Every kilogram you load is a kilogram you cannot take back.</div>
+    <div class="ss-btns">
+      <button class="ss-btn" id="ssStart" onclick="ssStartGame()">&gt; START MISSION</button>
+      <button class="ss-btn alt" onclick="ssShowHelp(true)">&gt; HOW TO PLAY</button>
+    </div>
+    <div class="ss-foot">AWAITING COMMAND<span class="ss-cur"></span></div>
+  </div>
+  <div class="ss-box ss-help" id="ssHelp" style="display:none">
+    <h2>&gt; HOW TO PLAY</h2>
+    <p><b>Goal:</b> keep your crew alive on Mars for 30 sols, then complete the secondary objectives mission control gives you.</p>
+    <h3>PHASE 1 · MANIFEST</h3>
+    <ul>
+      <li>Click cards in the catalog to load them onto the Starship. You have limited <b>payload mass</b> and <b>cargo volume</b>.</li>
+      <li>The ship launches with only about <b>10 sols</b> of oxygen, water and food. Load bulk reserves or production systems to last 30.</li>
+      <li>Watch the telemetry bars on the left as your choices change them.</li>
+      <li>Loaded something by mistake? Remove it from the <b>Loaded Crates</b> list before you seal. In Cadet mode the <b>Advisor</b> suggests what to load next.</li>
+      <li>When you are happy, press <b>SEAL MANIFEST</b>. Mission control then issues objectives tailored to what you loaded.</li>
+    </ul>
+    <h3>PHASE 2 · INTERIOR</h3>
+    <ul>
+      <li>Pick a crate from the unplaced cargo, then click a slot in the habitat to place it.</li>
+      <li>Changed your mind? Click a stocked crate to pull it back into the unplaced list.</li>
+      <li>Crates have to match the deck and ports of the slot. Anything that will not fit stays on Earth.</li>
+    </ul>
+    <h3>PHASE 3 · SURFACE OPERATIONS</h3>
+    <ul>
+      <li>Sols advance and problems hit: failures, shortages and real space weather from NASA DONKI.</li>
+      <li>Respond to each problem and keep oxygen, water, food, power, radiation shielding and morale healthy.</li>
+      <li>Hardware you manifested decides which options you have, so plan ahead.</li>
+      <li>Some missions are mini-games, like catching space-rock fragments for scientists.</li>
+    </ul>
+    <h3>TRAINING MODES</h3>
+    <ul>
+      <li><b>Cadet:</b> guided multiple-choice options.</li>
+      <li><b>Flight Director:</b> type your own response and the AI judge scores it. A Gemini key is optional.</li>
+    </ul>
+    <h3>WINNING</h3>
+    <p>Survive all 30 sols. Your rank depends on how many mission objectives you completed. If oxygen, water or food run out, the mission fails.</p>
+    <div class="ss-btns">
+      <button class="ss-btn" onclick="ssStartGame()">&gt; START GAME</button>
+      <button class="ss-btn alt" onclick="ssShowHelp(false)">&lt; BACK</button>
+    </div>
+  </div>
+</div>
 <div id="overlay"><div class="ovbox" id="ovbox">
   <div id="ov-title"></div><div id="ov-msg"></div>
   <button class="big" onclick="location.reload()">RESTART MISSION</button>
@@ -349,7 +547,7 @@ const GENKW = ['fix','repair','patch','reroute','vent','seal','use','power','res
 let S, uidc=0, entries=[], placed={}, unplaced=[], selUid=null, tick=null, filter='ALL';
 // Adjusted baseline starting resources to exactly 10 Sols of survival
 function freshState(){ return {phase:1,mode:'easy',mass:24000,vol:60,o2:200,h2o:250,food:120,rad:35,morale:75,ch4:0,store:0,storeCap:0,sol:1,stormUntil:0,speSol:0,over:false,paused:false,pwNet:-6,donki:null,activeProblem:null,pendingFollow:null,used:[]}; }
-S = freshState(); Object.assign(S,{samples:0,sprog:0,analyzed:0,anomaly:false,life:false,busy:false,specimen:null,objs:[],objSig:'',objBusy:false,objTok:0});
+S = freshState(); Object.assign(S,{frags:0,mg:false,samples:0,sprog:0,analyzed:0,anomaly:false,life:false,busy:false,specimen:null,objs:[],objSig:'',objBusy:false,objTok:0});
 
 function log(msg,cls){ if((cls==='bad'||cls==='warn'||/^(FLIGHT DIRECTOR|CREW ACTION)/.test(msg))&&!msg.startsWith('[CADET'))speak(msg);
   if(S.phase===2&&(cls==='bad'||cls==='good')){ const h=document.getElementById('hint'); if(h)h.textContent=(cls==='bad'?'! ':'OK ')+msg; }
@@ -358,7 +556,7 @@ function setMode(m){ S.mode=m;
   document.getElementById('m-easy').className='modebtn'+(m==='easy'?' on-easy':'');
   document.getElementById('m-hard').className='modebtn'+(m==='hard'?' on-hard':'');
   document.getElementById('modeName').textContent='MODE: '+(m==='easy'?'CADET':'FLIGHT DIRECTOR');
-  log('Training mode set: '+(m==='easy'?'CADET (guided options)':'FLIGHT DIRECTOR (free-text, AI judged)')+'.','warn'); }
+  log('Training mode set: '+(m==='easy'?'CADET (guided options)':'FLIGHT DIRECTOR (free-text, AI judged)')+'.','warn'); refreshP1(); }
 
 // ================= SLOT MATH =================
 function deckOf(sid){ return sid.slice(0,sid.length-2); }
@@ -423,7 +621,92 @@ function addItem(id){ const it=IT[id];
   const uid=++uidc; entries.push({uid:uid,id:id});
   if(it.m3>0) unplaced.push(uid);
   log(it.nm+' manifested: '+it.kg+' kg, '+it.m3+' m³.','good');
-  renderCatalog(); renderTel(); renderSlotInfo(); }
+  refreshP1(); renderTel(); renderSlotInfo(); }
+
+
+// ================= MANIFEST CRATE REMOVAL (PHASE 1) =================
+let RECSET=new Set();
+function refreshP1(){ renderAdvisor(); renderCatalog(); renderManifest(); }
+function recalcLoad(){
+  let kg=0,m3=0,o2=0,h2o=0,fd=0,rad=0,sc=0,ch=0;
+  entries.forEach(e=>{ const it=IT[e.id]; kg+=it.kg; m3+=it.m3; o2+=it.o2add||0; h2o+=it.h2oadd||0; fd+=it.foodadd||0; rad+=it.rad||0; sc+=it.store||0; ch+=it.ch4add||0; });
+  S.mass=24000-kg; S.vol=60-m3; S.o2=Math.min(600,200+o2); S.h2o=Math.min(3000,250+h2o); S.food=Math.min(1000,120+fd);
+  S.rad=Math.min(100,35+rad); S.storeCap=sc; S.store=Math.min(S.store,sc); S.ch4=ch; }
+function removeCrate(id,all){
+  if(S.phase!==1)return;
+  let n=0;
+  for(let i=entries.length-1;i>=0;i--){ if(entries[i].id!==id)continue;
+    const uid=entries[i].uid;
+    for(const sid in placed){ if(placed[sid]===uid)delete placed[sid]; }
+    unplaced=unplaced.filter(u=>u!==uid); if(selUid===uid)selUid=null;
+    entries.splice(i,1); n++; if(!all)break; }
+  if(!n)return;
+  recalcLoad(); const it=IT[id];
+  log(it.nm+(n>1?' ×'+n:'')+' removed from manifest — '+(it.kg*n)+' kg / '+(it.m3*n)+' m³ returned to budget.','warn');
+  refreshP1(); renderTel(); renderSlotInfo(); }
+function renderManifest(){
+  const box=document.getElementById('manifestList'); if(!box)return;
+  document.getElementById('manifestCount').textContent=entries.length; box.innerHTML='';
+  const cn={}; entries.forEach(e=>{ cn[e.id]=(cn[e.id]||0)+1; });
+  if(!entries.length){ const d=document.createElement('div'); d.className='mf-empty'; d.textContent='Nothing loaded yet. Click a hardware card to load it.'; box.appendChild(d); return; }
+  ITEMS.filter(i=>cn[i.id]).forEach(it=>{ const n=cn[it.id];
+    const row=document.createElement('div'); row.className='mf-row';
+    const nm=document.createElement('span'); nm.className='mf-nm'; nm.textContent='['+it.ic+'] '+it.nm+(n>1?' ×'+n:'')+' · '+(it.kg*n)+' kg · '+(it.m3*n)+' m³'; row.appendChild(nm);
+    const b=document.createElement('button'); b.type='button'; b.className='mf-btn'; b.textContent=n>1?'REMOVE 1':'REMOVE'; b.onclick=()=>removeCrate(it.id,false); row.appendChild(b);
+    if(n>1){ const a=document.createElement('button'); a.type='button'; a.className='mf-btn'; a.textContent='REMOVE ALL'; a.onclick=()=>removeCrate(it.id,true); row.appendChild(a); }
+    box.appendChild(row); }); }
+
+// ================= PHASE 2: RETURN ALL =================
+function returnAll(){
+  const sids=Object.keys(placed); if(!sids.length){ log('Nothing is stocked yet.','warn'); return; }
+  sids.forEach(sid=>{ unplaced.push(placed[sid]); delete placed[sid]; });
+  selUid=null; renderShip(); renderUnplaced();
+  log(sids.length+' crate(s) returned to the cargo queue.','warn'); }
+
+// ================= CADET ADVISOR =================
+function advise(){
+  const c=id=>entries.filter(e=>e.id===id).length;
+  const o2net=((c('electrolyzer')?18:0)+(c('hydro')?6:0)+(c('algae')?4:0))*(c('scrubber')?1:.6)-20;
+  const h2onet=(c('recycler')?20:0)+(c('drill')?30:0)+(c('sabatier')?8:0)-(24+(c('electrolyzer')?10:0)+(c('hydro')?12:0)+(c('algae')?4:0));
+  const fnet=(c('hydro')?7:0)+(c('algae')?5:0)+(c('myco')?6:0)-12;
+  const end=(v,n)=>Math.round(v+n*30), pw=projPower();
+  const e={o2:end(S.o2,o2net),h2o:end(S.h2o,h2onet),food:end(S.food,fnet)};
+  const rows=[];
+  const row=(key,kind,ic,label,ok,okMsg,badMsg,hint)=>rows.push({key,kind,ic,label,ok,msg:ok?okMsg:badMsg,hint:ok?'':hint});
+  row('power','need','⚡','POWER',pw>=0,'The lights are on and the machines are humming!','Your base is short on electricity!','Where can you get energy on a planet far from home?');
+  row('water','need','💧','WATER',e.h2o>=40,'Everyone has water to drink for all 30 sols!','The crew will run out of water before the end!','Pack some, make some, or look under the ground...');
+  row('air','need','🌬️','CLEAN AIR',c('scrubber')>0,'The cabin air stays fresh!','Breathing makes a gas that builds up in the cabin!','Something needs to clean the air the crew breathes out.');
+  row('oxygen','need','🫧','OXYGEN',e.o2>=40,'There is plenty of air to breathe for 30 sols!','The crew will run out of oxygen before the end!','Bring a stock of it, or find a way to make more.');
+  row('food','need','🍎','FOOD',e.food>=30,'The crew will not go hungry!','The crew will run out of food before the end!','Pack snacks, or grow your own!');
+  row('shield','need','🛡️','RADIATION SHIELD',S.rad>=50,'Space radiation is blocked!','Invisible space radiation can hurt the crew!','Something heavy or thick can block it.');
+  row('eva','tip','🧑‍🚀','GO OUTSIDE',c('airlock')+c('suitlocker')>0,'Astronauts can walk on Mars! (needed for the space-rock mission)','Nobody can step outside yet, and a science mission needs it!','How will astronauts get out onto the surface?');
+  row('storm','tip','⛈️','STORM SAFETY',c('shelter')>0,'There is a safe place to hide from solar storms!','Where can the crew hide when the Sun throws a tantrum?','A deep, protected room would help.');
+  row('night','tip','🔋','NIGHT POWER',!(c('solar')>0&&!c('battery')),'Power is saved up for the night!','The sun sets at night. What keeps the lights on?','Something that stores energy for later.');
+  return {rows,e}; }
+let ADV_PREV=null;
+function renderAdvisor(){
+  const box=document.getElementById('advisor'); if(!box)return;
+  RECSET=new Set();
+  if(S.mode!=='easy'){ box.style.display='none'; return; }
+  const a=advise(); box.style.display=''; box.innerHTML='';
+  const done=a.rows.filter(r=>r.ok).length, total=a.rows.length;
+  const needs=a.rows.filter(r=>r.kind==='need'), needDone=needs.filter(r=>r.ok).length;
+  const h=document.createElement('h3'); h.textContent='MISSION TO-DO LIST · WHAT DOES YOUR CREW NEED?'; box.appendChild(h);
+  const sm=document.createElement('div'); sm.className='adv-sum';
+  sm.textContent=needDone===needs.length?'🚀 All the essentials are covered! Check the bonus items, then seal the manifest.':'Tick every box to keep 4 astronauts alive for 30 sols. Figure out what to pack!'; box.appendChild(sm);
+  const pb=document.createElement('div'); pb.className='solbar'; const pf=document.createElement('div'); pf.style.width=Math.round(done/total*100)+'%'; pb.appendChild(pf); box.appendChild(pb);
+  const pl=document.createElement('div'); pl.className='adv-sum'; pl.textContent=done+' / '+total+' ticked'; box.appendChild(pl);
+  a.rows.forEach(r=>{ const d=document.createElement('div'); d.className='adv-row'+(r.ok?' done':'');
+    const was=ADV_PREV&&ADV_PREV[r.key]===false&&r.ok; if(was)d.classList.add('pop');
+    const t=document.createElement('span'); t.className='adv-tag'+(r.ok?' tick':(r.kind==='need'?' need':' tip'));
+    t.textContent=r.ok?'✔':(r.kind==='need'?'☐ MUST':'☐ BONUS'); d.appendChild(t);
+    const x=document.createElement('span'); x.className='adv-txt';
+    const b=document.createElement('b'); b.textContent=r.ic+' '+r.label+': '; x.appendChild(b);
+    x.appendChild(document.createTextNode(r.msg));
+    if(r.hint){ const hh=document.createElement('div'); hh.className='adv-hint'; hh.textContent='Hint: '+r.hint; x.appendChild(hh); }
+    d.appendChild(x); box.appendChild(d);
+    if(was)log('✔ '+r.label+' is sorted! Nice work.','good'); });
+  ADV_PREV={}; a.rows.forEach(r=>{ ADV_PREV[r.key]=r.ok; }); }
 
 // ================= PHASE 2 =================
 function renderShip(){ const g=document.getElementById('shipgrid'); g.innerHTML='';
@@ -431,7 +714,7 @@ function renderShip(){ const g=document.getElementById('shipgrid'); g.innerHTML=
     for(let r=1;r<=2;r++){ const row=document.createElement('div'); row.className='drow';
       ['L','A','R'].forEach(p=>{ const sid=d.k+r+p; const cell=document.createElement('div');
         cell.className='slot'+(p==='A'?' aisle':''); cell.dataset.slot=sid; cell.textContent='·';
-        if(placed[sid]!=null){ const en=entries.find(e=>e.uid===placed[sid]); cell.textContent=IT[en.id].ic; cell.title=IT[en.id].nm; cell.classList.add('filled'); }
+        if(placed[sid]!=null){ const en=entries.find(e=>e.uid===placed[sid]); cell.textContent=IT[en.id].ic+' ✕'; cell.title=IT[en.id].nm+' — click to take it out and return it to the queue'; cell.classList.add('filled'); }
         const sel=selUid!=null&&entries.find(e=>e.uid===selUid);
         if(sel&&placed[sid]==null){ const si=IT[sel.id]; if(si.deck===d.k&&(p!=='A'||si.slim))cell.classList.add('ok'); }
         cell.tabIndex=0; cell.onkeydown=e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); clickSlot(sid); } }; cell.onclick=()=>clickSlot(sid); row.appendChild(cell); });
@@ -537,7 +820,9 @@ function openProblem(keyOrObj){
   document.getElementById('prob-title').textContent='[!] '+prob.t;
   document.getElementById('prob-desc').textContent=prob.d;
   const easyDiv=document.getElementById('prob-easy'), hardDiv=document.getElementById('prob-hard');
-  if(S.mode==='easy'){ easyDiv.style.display=''; hardDiv.style.display='none'; easyDiv.innerHTML='';
+  document.getElementById('prob-term').style.display='none';
+  if(prob.term){ easyDiv.style.display='none'; hardDiv.style.display='none'; openTerm(prob); }
+  else if(S.mode==='easy'){ easyDiv.style.display=''; hardDiv.style.display='none'; easyDiv.innerHTML='';
     (prob.easy||[]).forEach((opt,i)=>{ const b=document.createElement('button'); b.className='pbtn';
       const ok=!opt.req||hasReq(opt.req);
       b.innerHTML='<b>'+(opt.req&&!ok?'[LOCKED] ':'')+opt.l+'</b><div class="fx">'+(opt.note||'')+(opt.req&&!ok?' · REQUIRES '+reqName(opt.req):'')+'</div>';
@@ -605,8 +890,8 @@ function startOps(){ S.phase=3; showPhase();
   S.speSol = 5+(S.donki? Math.round(S.donki.sev)%8 : 3);
   log('Touchdown confirmed. Return window in 30 Sols.','good');
   log(S.donki ? 'SOLAR PARTICLE EVENT forecast sol '+S.speSol+' (DONKI-verified '+S.donki.cls+' '+S.donki.type+').' : 'SPE forecast sol '+S.speSol+' (simulated).', 'warn');
-  tick=setInterval(solTick,3000); }
-function solTick(){ if(S.over||S.paused||S.hold||S.busy)return;
+  tick=setInterval(solTick,3000); renderTel(); }
+function solTick(){ if(S.over||S.paused||S.hold||S.busy||S.mg)return;
   if(S.sol>3&&S.sol<=S.stormUntil===false&&Math.random()<0.12){ S.stormUntil=S.sol+2; log('REGIONAL DUST STORM — solar output degraded for 3 sols.','warn'); }
   const st=S.sol<=S.stormUntil;
   let gen = cnt('solar')*14*(st?(cnt('dustmit')?0.4:0.2):1) + cnt('fission')*25 + (cnt('fuelcell')&&S.ch4>0?10:0);
@@ -647,6 +932,7 @@ function solTick(){ if(S.over||S.paused||S.hold||S.busy)return;
    +card('POWER',sg(net)+' kW',cl(net),gen.toFixed(0)+' gen / '+draw.toFixed(0)+' draw')
    +card('SHIELDING',Math.round(S.rad)+' / 100',S.rad<25?'neg':'pos','radiation margin')
    +card('SCIENCE',S.samples+' / 5 samples',S.samples>=5?'pos':'',S.analyzed+' analyzed')
+   +(S.objs.some(o=>o.metric==='frags')?card('FRAGMENTS',S.frags+' caught',S.frags>0?'pos':'','for scientists'):'')
    +card('MORALE',Math.round(S.morale)+' / 100',S.morale<30?'neg':'pos',S.ch4?'Methalox '+S.ch4+' u':'crew state')+'</div>';
   if(S.o2<=0)return fail('Asphyxiation. The O₂ reserve reached zero.');
   if(S.h2o<=0)return fail('Dehydration. The water reserve reached zero.');
@@ -683,7 +969,7 @@ document.getElementById('mainBtn').onclick=()=>{
   else if(S.phase===2){ if(S.objBusy){ log('Mission control is still drafting your objectives. Stand by.','warn'); return; }
     if(unplaced.length){ log('VERIFY FAILED — '+unplaced.length+' crate(s) still unplaced. Place them or leave them on Earth.','bad'); return; }
     startOps(); } };
-document.getElementById('backBtn').onclick=()=>{ S.phase=1; showPhase(); };
+document.getElementById('backBtn').onclick=()=>{ S.phase=1; showPhase(); refreshP1(); };
 
 document.getElementById('pauseBtn').onclick=function(){ S.hold=!S.hold; this.textContent=S.hold?'RESUME':'PAUSE'; log(S.hold?'Sol clock held by flight control.':'Sol clock resumed.','warn'); };
 document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&selUid!=null){ selUid=null; renderUnplaced(); renderShip(); document.getElementById('hint').textContent='Click a crate from UNPLACED CARGO, then click a slot.'; } });
@@ -725,6 +1011,7 @@ const OBJM={
  samples:{lo:1,hi:5,kind:'reach',req:['eva']},
  analyzed:{lo:1,hi:5,kind:'reach',req:['spectro']},
  life:{lo:1,hi:1,kind:'reach',req:['spectro','comms']},
+ frags:{lo:3,hi:8,kind:'reach',req:['eva']},
  o2:{lo:20,hi:300,kind:'hold',u:'kg O2'},
  h2o:{lo:20,hi:1000,kind:'hold',u:'L water'},
  food:{lo:20,hi:300,kind:'hold',u:'food units'},
@@ -763,6 +1050,9 @@ function genObjectives(){
   if(S.objs.length&&S.objSig===sig)return;
   const tok=++S.objTok; S.objs=[]; S.objSig=sig; S.objBusy=true; renderObjectives();
   const finish=(list,src)=>{ if(tok!==S.objTok)return; if(list.length<3){ const extra=localObjectives(ids).filter(x=>!list.some(y=>y.metric===x.metric)); list=list.concat(extra).slice(0,4); }
+    if(ids.includes('airlock')||ids.includes('suitlocker')){ if(!list.some(o=>o.metric==='frags')){
+      if(list.length>=4){ let k=list.length-1; while(k>0&&OBJM[list[k].metric].kind!=='hold')k--; list.splice(k,1); }
+      list.unshift({title:'Meteor Fragment Hunt',briefing:'A meteor shower scattered space rocks. Catch fragments so scientists on Earth can study them.',metric:'frags',target:5}); } }
     S.objs=list; S.objBusy=false; log('MISSION CONTROL ('+src+'): '+list.length+' objectives issued for this crew and manifest.','good'); list.forEach(o=>log('OBJECTIVE: '+o.title,'warn')); renderObjectives(); };
   if(!GEMINI_API_KEY)return finish(localObjectives(ids),'local generator');
   const counts={}; entries.forEach(e=>{ const n=IT[e.id].nm; counts[n]=(counts[n]||0)+1; });
@@ -773,6 +1063,7 @@ function genObjectives(){
    '- samples (target 1-5): soil samples collected by EVA. Needs an EVA Airlock or Suit Locker.\n'+
    '- analyzed (target 1-5): samples analyzed in the lab. Needs a Spectrometer Bench.\n'+
    '- life (target 1): confirm a biosignature. Needs a Spectrometer Bench and a Comms Relay.\n'+
+   '- frags (target 3-8): space-rock fragments caught in the Fragment Catcher minigame. Needs an EVA Airlock or Suit Locker.\n'+
    '- o2 (target 20-300): kg of oxygen left at end of Sol 30.\n'+
    '- h2o (target 20-1000): litres of water left at end of Sol 30.\n'+
    '- food (target 20-300): food units left at end of Sol 30.\n'+
@@ -798,7 +1089,8 @@ function renderObjectives(){ const el=document.getElementById('objs'); if(!el)re
     const prog=m.kind==='reach'?(o.metric==='life'?(S.life?'CONFIRMED':(S.anomaly?'ANOMALY DETECTED':'locked: analyze 3 samples')):Math.min(v,o.target)+'/'+o.target):(S.phase===3?'NOW '+Math.round(v)+' / '+o.target:'TARGET '+o.target);
     const reqs=m.kind==='reach'?m.req.map(r=>tag(okMap[r],OBJREQ[r])).join(''):'Have at least '+o.target+' '+m.u+' left at the end of Sol 30.';
     const btn=(o.metric==='life'&&S.phase===3&&S.anomaly&&!S.life)?'<button class="fbtn on" '+(S.busy?'disabled':'')+' onclick="confirmLife()">'+(S.busy?'GENERATING SPECIMEN...':'RUN CONFIRMATION PROTOCOL')+'</button>':'';
-    html+=row(done,o.title,prog,'<i>'+o.briefing+'</i><br>'+reqs,btn); });
+    const fbtn=(o.metric==='frags'&&S.phase===3&&!done&&eva)?'<button class="fbtn on" '+((S.paused||S.mg||S.over)?'disabled':'')+' onclick="launchFragments()">PLAY: FRAGMENT CATCHER</button>':'';
+    html+=row(done,o.title,prog,'<i>'+o.briefing+'</i><br>'+reqs,btn||fbtn); });
   el.innerHTML=html; }
 function localArt(){ const L=[["  .  *  .  .  *  .  "," ~~~(O)~(O)~(O)~~~ ","   | |  | |  | |   "," ~~(o)~~(o)~~(o)~~ ","   . ~ . ~ . ~ .   ","  *   .   *   .    ","      ( ~~ )       "],
   ["       .-----.       ","     .(  o o  ).     ","    (  .  ^  .  )    ","    (  ' ___ '  )    ","     '(  ~~~  )'     ","       '-----'       ","      ~  ~  ~  ~     "],
@@ -823,6 +1115,76 @@ function confirmLife(){ if(S.life||!S.anomaly||S.busy||S.over)return;
   .then(r=>r.json()).then(d=>{ let t=d.candidates[0].content.parts[0].text.trim(); if(t.startsWith('```'))t=t.split('```')[1].replace(/^json/,'').trim(); done(cleanSpecimen(JSON.parse(t))); })
   .catch(()=>{ log('AI specimen generator unreachable. Local generator engaged.','warn'); done(localSpecimen()); }); }
 
+// ================= FRAGMENT CATCHER MINIGAME =================
+(function(){
+  var TYPES=[
+    {k:'IRON',c:'#c9d1d9',fact:'Iron-nickel metal, from the heart of a broken asteroid.'},
+    {k:'STONY',c:'#ffb000',fact:'Stony rock, a leftover building block of the planets.'},
+    {k:'ICE',c:'#33ffcc',fact:'Icy chunk, frozen water that may have come from a comet!'},
+    {k:'CARBON',c:'#c79bff',fact:'Carbon-rich rock holding ancient space chemistry.'}];
+  var W=480,H=320,DUR=25, G=null, raf=0, cv, cx, ov;
+  function $(i){return document.getElementById(i);}
+  function build(){ if($('mgOverlay'))return;
+    ov=document.createElement('div'); ov.id='mgOverlay';
+    ov.innerHTML='<div class="mgbox"><div class="mgtitle">METEOR SHOWER! FRAGMENT CATCHER</div>'+
+      '<div class="mghud"><span id="mgTime">TIME 25</span><span id="mgScore">CAUGHT 0</span></div>'+
+      '<div class="mgwrap"><canvas id="mgCanvas" width="'+W+'" height="'+H+'"></canvas><div id="mgPanel"></div></div>'+
+      '<div class="mgfoot">Tap or click the glowing space rocks. Avoid the red fireballs!</div></div>';
+    document.body.appendChild(ov); cv=$('mgCanvas'); cx=cv.getContext('2d');
+    cv.addEventListener('pointerdown',function(e){ if(!G||G.state!=='play')return; e.preventDefault();
+      var r=cv.getBoundingClientRect(); hit((e.clientX-r.left)*W/r.width,(e.clientY-r.top)*H/r.height); });
+    document.addEventListener('keydown',function(e){ if(!G)return; if(e.key==='Escape'){ if(G.state==='play')finish(); else close(); } }); }
+  function shape(r){ var n=7+(Math.random()*3|0), p=[]; for(var i=0;i<n;i++){ var a=i/n*Math.PI*2, k=.7+Math.random()*.45; p.push([Math.cos(a)*r*k,Math.sin(a)*r*k]); } return p; }
+  function spawn(){ var haz=Math.random()<.2, r=haz?20:14+Math.random()*10;
+    G.objs.push({x:30+Math.random()*(W-60),y:-r,vx:-30+Math.random()*60,vy:50+Math.random()*80+G.t*2,r:r,rot:0,vr:-2+Math.random()*4,t:haz?-1:(Math.random()*4|0),p:shape(r)}); }
+  function burst(x,y,col){ for(var i=0;i<14;i++){ var a=Math.random()*6.28,s=40+Math.random()*120; G.parts.push({x:x,y:y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,l:.6,c:col}); } }
+  function hit(x,y){ for(var i=G.objs.length-1;i>=0;i--){ var o=G.objs[i]; var dx=x-o.x,dy=y-o.y;
+      if(dx*dx+dy*dy<=(o.r+12)*(o.r+12)){ G.objs.splice(i,1);
+        if(o.t<0){ G.left-=3; G.flash=.3; burst(o.x,o.y,'#ff4d4d'); G.txt.push({x:o.x,y:o.y,s:'-3s FIREBALL!',c:'#ff6b6b',l:1}); }
+        else { var ty=TYPES[o.t]; G.caught++; G.byType[o.t]=(G.byType[o.t]||0)+1; burst(o.x,o.y,ty.c); G.txt.push({x:o.x,y:o.y,s:'+1 '+ty.k,c:ty.c,l:1}); }
+        $('mgScore').textContent='CAUGHT '+G.caught; return; } } }
+  function draw(){ cx.fillStyle='#010802'; cx.fillRect(0,0,W,H);
+    G.stars.forEach(function(s){ cx.fillStyle='rgba(125,255,166,'+s.a+')'; cx.fillRect(s.x,s.y,s.z,s.z); });
+    G.objs.forEach(function(o){ cx.save(); cx.translate(o.x,o.y); cx.rotate(o.rot);
+      var col=o.t<0?'#ff4d4d':TYPES[o.t].c; cx.shadowColor=col; cx.shadowBlur=o.t<0?18:12; cx.fillStyle=o.t<0?'#5a0f0f':'#0a1a10'; cx.strokeStyle=col; cx.lineWidth=2;
+      cx.beginPath(); o.p.forEach(function(q,i){ if(i)cx.lineTo(q[0],q[1]); else cx.moveTo(q[0],q[1]); }); cx.closePath(); cx.fill(); cx.stroke();
+      if(o.t<0){ cx.shadowBlur=0; cx.fillStyle='#ffb000'; cx.beginPath(); cx.arc(0,0,o.r*.35,0,6.28); cx.fill(); }
+      cx.restore(); });
+    G.parts.forEach(function(p){ cx.globalAlpha=Math.max(0,p.l/.6); cx.fillStyle=p.c; cx.fillRect(p.x,p.y,3,3); }); cx.globalAlpha=1;
+    cx.font='bold 14px monospace'; cx.textAlign='center'; G.txt.forEach(function(t){ cx.globalAlpha=Math.max(0,t.l); cx.fillStyle=t.c; cx.fillText(t.s,t.x,t.y-(1-t.l)*30); }); cx.globalAlpha=1;
+    if(G.flash>0){ cx.fillStyle='rgba(255,77,77,'+G.flash+')'; cx.fillRect(0,0,W,H); } }
+  function loop(ts){ if(!G||G.state!=='play')return; raf=requestAnimationFrame(loop);
+    var dt=Math.min(.05,(ts-G.last)/1000||0); G.last=ts; G.t+=dt; G.left-=dt; G.sp-=dt;
+    if(G.sp<=0){ spawn(); G.sp=.45+Math.random()*.45; }
+    G.objs.forEach(function(o){ o.x+=o.vx*dt; o.y+=o.vy*dt; o.rot+=o.vr*dt; if(o.x<o.r||o.x>W-o.r)o.vx*=-1; });
+    G.objs=G.objs.filter(function(o){ if(o.y>H+o.r+5){ if(o.t>=0)G.missed++; return false; } return true; });
+    G.parts.forEach(function(p){ p.x+=p.vx*dt; p.y+=p.vy*dt; p.l-=dt; }); G.parts=G.parts.filter(function(p){return p.l>0;});
+    G.txt.forEach(function(t){ t.l-=dt; }); G.txt=G.txt.filter(function(t){return t.l>0;}); if(G.flash>0)G.flash-=dt;
+    $('mgTime').textContent='TIME '+Math.max(0,Math.ceil(G.left)); draw(); if(G.left<=0)finish(); }
+  function intro(){ var p=$('mgPanel'); p.style.display='flex';
+    p.innerHTML='<div class="mgh">SCIENTISTS NEED YOUR HELP!</div><p>A meteor shower just scattered rock fragments across the sky. Catch as many as you can so scientists on Earth can study them.</p><p>✔ Tap glowing rocks to catch them<br>✘ Do NOT tap red fireballs (they steal 3 seconds)</p><button class="mgbtn" id="mgGo">START CATCHING</button>';
+    $('mgGo').onclick=start; $('mgGo').focus(); }
+  function start(){ $('mgPanel').style.display='none';
+    var st=[]; for(var i=0;i<60;i++)st.push({x:Math.random()*W,y:Math.random()*H,z:Math.random()<.2?2:1,a:.2+Math.random()*.6});
+    G={state:'play',objs:[],parts:[],txt:[],stars:st,t:0,left:DUR,sp:.3,last:performance.now(),caught:0,missed:0,byType:{},flash:0};
+    $('mgScore').textContent='CAUGHT 0'; raf=requestAnimationFrame(loop); }
+  function finish(){ if(!G||G.state!=='play')return; G.state='end'; cancelAnimationFrame(raf); draw();
+    var n=G.caught, before=S.frags; S.frags=Math.min(30,S.frags+n);
+    var p=$('mgPanel'); p.style.display='flex';
+    var facts=''; TYPES.forEach(function(ty,i){ if(G.byType[i])facts+='<div class="mgf" style="color:'+ty.c+'">'+G.byType[i]+' x '+ty.k+': '+ty.fact+'</div>'; });
+    var tg=(S.objs.filter(function(o){return o.metric==='frags';})[0]||{target:5}).target;
+    p.innerHTML='<div class="mgh">'+(n?'GREAT CATCH!':'NO LUCK THIS TIME')+'</div><p>You caught <b>'+n+'</b> fragment'+(n===1?'':'s')+'. Mission total: <b>'+S.frags+' / '+tg+'</b></p>'+(facts?'<div class="mgfacts">'+facts+'</div>':'')+(n?'<p>Sent to the scientists on Earth!</p>':'<p>Try again, the sky is full of rocks.</p>')+'<button class="mgbtn" id="mgBack">BACK TO MISSION</button>';
+    $('mgBack').onclick=close; $('mgBack').focus();
+    log('FRAGMENT CATCHER: '+n+' fragment(s) sent to scientists ('+S.frags+'/'+tg+').',n?'good':'warn');
+    if(before<tg&&S.frags>=tg)log('OBJECTIVE COMPLETE: scientists have enough fragments to study. Well done!','good'); }
+  function close(){ if(!G)return; cancelAnimationFrame(raf); G=null; ov.classList.remove('active'); S.mg=false; renderTel(); }
+  window.launchFragments=function(){
+    if(S.phase!==3||S.over||S.paused||S.busy||S.mg)return;
+    if(!hasReq('eva')){ log('FRAGMENT HUNT BLOCKED: nobody can go outside. You need an EVA Airlock or Suit Locker.','bad'); return; }
+    build(); S.mg=true; applyFx({o2:-4}); log('EVA suit-up: -4 kg O2 for the trip outside. Sol clock held.','warn'); renderTel();
+    ov.classList.add('active'); G={state:'intro'}; $('mgTime').textContent='TIME '+DUR; $('mgScore').textContent='CAUGHT 0'; cx.fillStyle='#010802'; cx.fillRect(0,0,W,H); intro(); };
+})();
+
 // ================= BOOT =================
 syncVoiceBtn();
 renderFilters(); renderCatalog(); renderTel(); renderSlotInfo(); showPhase();
@@ -832,6 +1194,124 @@ log('OBJECTIVES: survive 30 sols. Mission control will issue extra objectives ta
 log('PHASE 1: Load your habitat. Watch the mass budget AND the tank ledger.');
 log('A.R.E.S. 2.0 online. Starship manifested at Arcadia Planitia launch queue.','good');
 fetchDONKI();
+</script>
+<script>
+function ssShowHelp(on){ document.getElementById('ssMain').style.display=on?'none':''; document.getElementById('ssHelp').style.display=on?'':'none'; var b=document.querySelector(on?'#ssHelp .ss-btn':'#ssStart'); if(b)b.focus({preventScroll:true}); if(on)document.getElementById('startScreen').scrollTop=0; }
+function ssStartGame(){ document.body.classList.remove('ss-on'); document.getElementById('startScreen').classList.add('hide'); document.documentElement.style.overflow=''; }
+document.documentElement.style.overflow='hidden';
+document.addEventListener('keydown',function(e){ var el=document.getElementById('startScreen'); if(!el||el.classList.contains('hide'))return;
+  if(e.key==='Escape'&&document.getElementById('ssHelp').style.display!=='none')ssShowHelp(false); });
+document.getElementById('ssStart').focus();
+refreshP1();
+</script>
+<script>
+(function(){ var left=document.querySelector('.wrap>.panel:first-child'), P={left:left,cdx:document.getElementById('cdxPanel'),log:document.getElementById('logPanel')}, wrap=document.querySelector('.wrap');
+  function sync(){ var all=true;
+    document.querySelectorAll('#sbbar [data-p]').forEach(function(b){ var min=P[b.dataset.p].classList.contains('pmin'); b.classList.toggle('on',!min); if(!min)all=false; });
+    wrap.classList.toggle('lmin',left.classList.contains('pmin'));
+    wrap.classList.toggle('rmin',P.cdx.classList.contains('pmin')&&P.log.classList.contains('pmin'));
+    document.getElementById('sbAll').textContent=all?'SHOW ALL':'HIDE ALL'; }
+  function tog(k){ P[k].classList.toggle('pmin'); sync(); }
+  document.querySelectorAll('#sbbar [data-p]').forEach(function(b){ b.onclick=function(){ tog(b.dataset.p); }; });
+  Object.keys(P).forEach(function(k){ var h=P[k].querySelector('h2'); if(h){ h.title='Click to collapse or expand'; h.onclick=function(){ tog(k); }; } });
+  document.getElementById('sbAll').onclick=function(){ var hide=document.getElementById('sbAll').textContent==='HIDE ALL';
+    Object.keys(P).forEach(function(k){ P[k].classList.toggle('pmin',hide); }); sync(); };
+  sync(); })();
+(function(){ var open=false;
+  function set(v){ open=v; document.getElementById('catalog').style.display=v?'':'none';
+    document.getElementById('catToggle').textContent=v?'HIDE CARDS':'SHOW ALL CARDS';
+    document.getElementById('catToggle').classList.toggle('on',v);
+    document.getElementById('catNote').style.display=v?'none':''; }
+  document.getElementById('catToggle').onclick=function(){ set(!open); };
+  document.getElementById('filters').addEventListener('click',function(){ set(true); });
+  set(false); })();
+(function(){ var cf='ALL', sel=null;
+  function eff(it){ var a=[];
+    if(it.pw>0)a.push('produces '+it.pw+' kW'); if(it.pw<0)a.push('draws '+(-it.pw)+' kW');
+    if(it.store)a.push('+'+it.store+' kWh battery capacity');
+    if(it.o2>0)a.push('makes '+it.o2+' kg O\u2082 per sol'); if(it.o2<0)a.push('uses '+(-it.o2)+' kg O\u2082 per sol');
+    if(it.h2o>0)a.push('makes '+it.h2o+' L water per sol'); if(it.h2o<0)a.push('uses '+(-it.h2o)+' L water per sol');
+    if(it.food>0)a.push('makes '+it.food+' food units per sol');
+    if(it.rad)a.push('+'+it.rad+' radiation shielding');
+    if(it.scrub)a.push('scrubs cabin CO\u2082');
+    if(it.ch4)a.push('burns methane while running');
+    if(it.o2add)a.push('+'+it.o2add+' kg O\u2082 reserve'); if(it.h2oadd)a.push('+'+it.h2oadd+' L water reserve');
+    if(it.foodadd)a.push('+'+it.foodadd+' food units reserve'); if(it.ch4add)a.push('+'+it.ch4add+' methane units');
+    return a.join(', '); }
+  function describe(it){
+    var place=it.deck?(it.deck+' deck, ports: '+(it.ports.length?it.ports.join(' + '):'none')+(it.slim?', slim profile (fits the aisle)':'')):'bulk tank load, no interior slot';
+    var e=eff(it);
+    log('ITEM DATABASE: '+it.nm+' ('+CATLBL[it.cat]+') \u00b7 '+it.kg+' kg, '+it.m3+' m\u00b3 \u00b7 '+place+' \u00b7 '+it.bl+(e?' \u00b7 Effects: '+e+'.':'')); }
+  function render(){
+    var f=document.getElementById('cdxFilters'); f.innerHTML='';
+    CATS.forEach(function(c){ var b=document.createElement('button'); b.className='fbtn'+(cf===c?' on':''); b.textContent=CATLBL[c]; b.onclick=function(){cf=c;render();}; f.appendChild(b); });
+    var l=document.getElementById('cdxList'); l.innerHTML='';
+    ITEMS.filter(function(i){return cf==='ALL'||i.cat===cf;}).forEach(function(it){
+      var b=document.createElement('button'); b.type='button'; if(sel===it.id)b.className='sel';
+      b.innerHTML='<span>['+it.ic+'] '+it.nm+'</span><small>'+it.kg+' kg</small>';
+      b.onclick=function(){ sel=it.id; describe(it); render(); };
+      l.appendChild(b); }); }
+  render(); })();
+</script>
+<script>
+Object.assign(PROBLEMS,{
+ tm_df:{t:'TELEMETRY LOGGER STALLED',d:'The habitat data logger stopped writing. The partition may be full. Open the terminal and check disk usage in human-readable units.',easy:[],kw:['disk','space'],
+  term:{cmd:'df -h',why:'df reports free disk space per filesystem and -h prints it in human-readable units.',ok:{morale:3},bad:{morale:-10},decoys:['du','-a','ls']}},
+ tm_restart:{t:'COMMS DAEMON UNRESPONSIVE',d:'The relay service to Earth has hung. Restart it as root using systemd.',easy:[],kw:['restart'],
+  term:{cmd:'sudo systemctl restart comms-relay',why:'systemctl restart stops and starts the service again; sudo runs it with root rights.',ok:{morale:4},bad:{morale:-10},decoys:['stop','reload','service']}},
+ tm_kill:{t:'RUNAWAY PROCESS ON LIFE-SUPPORT COMPUTER',d:'Process 4242 is eating the CPU and delaying the scrubber control loop. Force-kill it right now.',easy:[],kw:['kill'],
+  term:{cmd:'kill -9 4242',why:'kill -9 sends SIGKILL, which cannot be ignored, to process ID 4242.',ok:{morale:3},bad:{o2:-25,morale:-5},decoys:['-15','pkill','killall']}},
+ tm_tail:{t:'OXYGEN SENSOR ANOMALY',d:'Oxygen readings look odd. Follow the sensor log live so new lines appear as they are written.',easy:[],kw:['log'],
+  term:{cmd:'tail -f /var/log/habitat/o2.log',why:'tail -f follows a file and prints new lines as they arrive, perfect for live logs.',ok:{morale:3},bad:{o2:-15},decoys:['-n','cat','head']}},
+ tm_chmod:{t:'AIRLOCK SEQUENCER WON\'T RUN',d:'A software update stripped the execute permission from the airlock cycle script. Give it back.',easy:[],kw:['chmod'],
+  term:{cmd:'chmod +x airlock_cycle.sh',why:'chmod +x adds the execute permission so the script can be run.',ok:{morale:3},bad:{morale:-10},decoys:['-x','chown','777']}},
+ tm_tar:{t:'SCIENCE DATA BACKUP',d:'A dust storm is closing in. Archive the sample folder into one compressed gzip tarball before power drops.',easy:[],kw:['tar','archive'],
+  term:{cmd:'tar -czvf samples.tar.gz /data/samples',why:'tar -czvf creates (c) a gzip-compressed (z) archive, verbosely (v), into the file (f) you name.',ok:{morale:4},bad:{morale:-10},decoys:['-xzvf','zip','cp']}},
+ tm_grep:{t:'CONFIG ERROR HUNT',d:'The water controller refuses to boot. Search every file under the habitat config folder for the word ERROR.',easy:[],kw:['grep'],
+  term:{cmd:'grep -r ERROR /etc/habitat',why:'grep -r searches recursively through a directory for matching text.',ok:{morale:3},bad:{h2o:-20},decoys:['-i','find','cat']}}
+});
+(function(){ var T=null, att=3;
+  function $(i){return document.getElementById(i);}
+  function norm(v){return v.replace(/\s+/g,' ').trim();}
+  function paint(){ if(!T)return; var t=T.term.cmd, v=$('tm-input').value, box=$('tm-target'); box.innerHTML='';
+    for(var i=0;i<=t.length;i++){
+      if(i===v.length){ var cu=document.createElement('span'); cu.className='cur'; box.appendChild(cu); }
+      if(i<t.length){ var sp=document.createElement('span'); sp.className=i<v.length?(v[i]===t[i]?'ok':'bad'):'rest'; sp.textContent=t[i]===' '?'\u00a0':t[i]; box.appendChild(sp); } }
+    if(v.length>t.length){ var x=document.createElement('span'); x.className='bad'; x.textContent=' +'+(v.length-t.length)+' extra'; box.appendChild(x); }
+    $('tm-meta').textContent='ATTEMPTS LEFT: '+att; }
+  function add(tok){ var inp=$('tm-input'); var v=inp.value; if(v&&!/\s$/.test(v))v+=' '; inp.value=v+tok+' '; paint(); inp.focus({preventScroll:true}); }
+  function chips(){ var c=$('tm-chips'); c.innerHTML=''; var toks=T.term.cmd.split(' ').concat(T.term.decoys||[]);
+    toks=toks.filter(function(x,i){return toks.indexOf(x)===i;}); toks.sort(function(){return Math.random()-.5;});
+    toks.forEach(function(tok){ var b=document.createElement('button'); b.type='button'; b.className='tm-chip'; b.textContent=tok; b.onclick=function(){add(tok);}; c.appendChild(b); }); }
+  window.openTerm=function(prob){ T=prob; att=3; $('prob-term').style.display=''; $('tm-input').value=''; $('tm-fb').textContent=''; chips(); paint(); $('tm-input').focus({preventScroll:true}); };
+  function run(){ if(!T)return; var v=norm($('tm-input').value), cmd=T.term.cmd, fb=$('tm-fb');
+    if(v===cmd){ var tm=T.term; applyFx(tm.ok); log('TERMINAL: '+cmd+' executed. '+tm.why+(tm.ok&&tm.ok.morale?' Morale +'+tm.ok.morale+'.':''),'good'); T=null; closeProblem(); renderTel(); return; }
+    att--; var vt=v.split(' '), ct=cmd.split(' '), hint;
+    if(!v)hint='Nothing was typed.';
+    else if(vt[0]!==ct[0])hint='bash: '+vt[0]+': command not found';
+    else { var k=0; while(k<ct.length&&vt[k]===ct[k])k++; hint=k<ct.length&&k<vt.length?'Command ran with a wrong argument at word '+(k+1)+': "'+vt[k]+'".':'Incomplete or extra arguments: the command did not do what was needed.'; }
+    if(att<=0){ var tm2=T.term; applyFx(tm2.bad); log('TERMINAL: out of attempts on "'+cmd+'". The fix did not land in time.','bad'); T=null; closeProblem(); renderTel(); return; }
+    fb.textContent=hint+'  ('+att+(att===1?' attempt':' attempts')+' left)'; paint(); }
+  $('tm-run').onclick=run;
+  $('tm-input').addEventListener('input',function(){ $('tm-fb').textContent=''; paint(); });
+  $('tm-input').addEventListener('keydown',function(e){ if(e.key==='Enter'){ e.preventDefault(); run(); } });
+  $('tm-input').addEventListener('paste',function(e){ e.preventDefault(); $('tm-fb').textContent='Pasting is disabled. Type it or use the builder.'; });
+  $('tm-input').addEventListener('drop',function(e){ e.preventDefault(); });
+  $('tm-undo').onclick=function(){ var inp=$('tm-input'); inp.value=inp.value.replace(/\s+$/,'').replace(/\S*$/,''); paint(); inp.focus({preventScroll:true}); };
+  $('tm-clear').onclick=function(){ var inp=$('tm-input'); inp.value=''; paint(); inp.focus({preventScroll:true}); };
+})();
+(function(){ var c=document.getElementById('rain'); if(!c)return; var x=c.getContext('2d'), W,H,fs=16,cols,drops,last=0;
+  var G=['*','.','+','\u00b7','\u2726','\u00b0','*','\u22c6'];
+  function reset(d,first){ d.y=first?-Math.random()*60:-Math.random()*25; d.v=.2+Math.random()*.55; d.on=Math.random()<.5; }
+  function init(){ W=c.width=innerWidth; H=c.height=innerHeight; cols=Math.ceil(W/fs); drops=[]; for(var i=0;i<cols;i++){ var d={}; reset(d,true); drops.push(d); } x.fillStyle='#010802'; x.fillRect(0,0,W,H); }
+  function frame(t){ requestAnimationFrame(frame); if(t-last<45)return; last=t;
+    x.fillStyle='rgba(1,8,2,.13)'; x.fillRect(0,0,W,H); x.font=fs+'px monospace';
+    for(var i=0;i<cols;i++){ var d=drops[i]; if(d.on&&d.y>0){ var ch=G[(Math.random()*G.length)|0], px=i*fs, py=d.y*fs;
+        x.shadowColor='#3dff7a'; x.shadowBlur=9; x.fillStyle='#d4ffe0'; x.fillText(ch,px,py); } 
+      d.y+=d.v; if(d.y*fs>H+fs)reset(d,false); } x.shadowBlur=0; }
+  init(); var rt; addEventListener('resize',function(){ clearTimeout(rt); rt=setTimeout(init,150); });
+  if(matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches){ x.fillStyle='#3dff7a'; for(var k=0;k<90;k++){ x.globalAlpha=.15+Math.random()*.4; x.fillText(G[k%G.length],Math.random()*W,Math.random()*H); } return; }
+  requestAnimationFrame(frame); })();
 </script>
 </body>
 </html>
