@@ -1,6 +1,4 @@
 @@ -1,2 +1,103 @@
-# ARES-2.0
-An astronaut trainer built for kids
 # PROJECT A.R.E.S. 2.0
 
 **Advanced Resource & Environment Simulator — Starship Manifest**
